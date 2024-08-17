@@ -1,0 +1,53 @@
+version: '3'
+services:
+  db:
+    image: mongodb/mongodb-community-server
+    ports:
+      - "27017:27017"
+    networks:
+      - notes
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      limits:
+        cpus: '0.5'
+        memory: 512M
+
+  backend:
+    # image: notes_backend
+    build:
+      context: ./
+    ports:
+      - "5000:5000"
+    networks:
+      - notes
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: docker
+      PORT: 5000
+
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+        limits:
+          cpus: '0.5'
+          memory: 512M
+  # frontend:
+  #   # image: notes_frontend
+  #   build:
+  #     context: ./notes-app-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - notes
+  #   depends_on:
+  #     - backend
+
+networks:
+  notes:
+    driver: bridge
