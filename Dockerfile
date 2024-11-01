@@ -6,12 +6,12 @@ RUN apk update && apk upgrade && \
 
 COPY package*.json ./
 
-run npm i --production
+RUN npm i
 
 COPY  . .
 
-run npm i -g typescript
-run tsc
+RUN npm i -g typescript
+RUN tsc
 
 EXPOSE 5000
 

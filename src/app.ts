@@ -3,7 +3,9 @@ import cors from 'cors';
 import { connect } from 'mongoose';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './config.env' });
+if (!process.env.NODE_ENV) {
+  dotenv.config({ path: './config.env' });
+}
 
 const app = express();
 
@@ -40,10 +42,12 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-const db =
-  process.env.NODE_ENV === 'docker'
-    ? `mongodb://db:27017/notes-app-typescript`
-    : `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/notes-app-typescript`;
+let db: string = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/notes-app-typescript`;
+if (process.env.NODE_ENV === 'docker') {
+  db = `mongodb://db:27017/notes-app-typescript`;
+} else if (process.env.NODE_ENV === 'kubernetes') {
+  db = process.env.MONGO_URI || `mongodb://db:27017/notes-app-typescript`;
+}
 console.log(db);
 
 connect(db)

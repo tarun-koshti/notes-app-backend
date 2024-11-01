@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: notes-backend
+  template:
+    metadata:
+      labels:
+        app: notes-backend
+    spec:
+      containers:
+        - name: notes-app-backend-1
+          image: localhost:4000/notes-kubernetes-test:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: NODE_ENV
+              value: kubernetes
+            - name: PORT
+              value: "5000"
+            - name: MONGO_URI
+              value: "mongodb+srv://<mongo_user>:<mongo_password>@<mongo_host/notes-app-typescript"

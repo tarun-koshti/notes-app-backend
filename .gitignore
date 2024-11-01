@@ -1,5 +1,6 @@
 # *.env
 config-prod.env
+config-copy.env
 *.conf
 *.csv
 # Logs
