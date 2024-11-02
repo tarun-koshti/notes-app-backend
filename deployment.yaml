@@ -13,8 +13,13 @@ spec:
         app: notes-backend
     spec:
       containers:
-        - name: notes-app-backend-1
-          image: localhost:4000/notes-kubernetes-test:latest
+        - name: notes-app-backend
+          image: tarunkoshti/notes-kubernetes-test:latest
+          # To switch from using a remote image to a local image for deployment,
+          # comment out the 'image:' line that specifies the remote image,
+          # and uncomment the 'image:' line that specifies the local image.
+          # Comment out the image: line above and uncomment the one below to use a local image
+          # image: localhost:4000/notes-kubernetes-test:latest
           ports:
             - containerPort: 5000
           env:
