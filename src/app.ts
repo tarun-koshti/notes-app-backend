@@ -14,6 +14,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'Welcome to Notes App API',
+  });
+});
+
 app.use('/api', require('./routes'));
 
 app.all('**', (req: Request, res: Response) => {
